@@ -241,6 +241,7 @@ function check (event) {
 		<img id='cappic' onclick="check(event)" alt="">
 	</span>
 	</form>
+
 	<p id="tip"></p><br>
 	<div id="test"></div>
 </div>
