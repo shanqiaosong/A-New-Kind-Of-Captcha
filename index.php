@@ -182,50 +182,61 @@ body{
 }
 	</style>
 	<script>
-function lod(){
-	$("#cappic").hide();
-	$("#con").val("");
-	inte=setTimeout(function(){
-		$("#test").load('test.txt?'+Math.random());
-		$("#cappic").attr('src','pic.php');
-		$("#cappic").fadeIn();
-	},1000)
 	
+function lod() {
+	inte = setTimeout(function() {
+		$("#test").load('test.txt?' + Math.random());
+		$("#cappic").attr('src', 'pic.php');
+		$("#cappic").fadeIn();
+	}, 1000)
 }
-function tip (con,color) {
+
+function tip(con, color, load) {
 	$('#tip').html(con);
-	$('#tip').animate({backgroundColor:'#0086b3'},100)
-	$('#tip').animate({backgroundColor:color})
-}
-function check (event) {
-	x=event.clientX;
-	offx=$("#capt").offset().left;
-	$.post(
-'Captcha.php',{
-	pos:x-offx,
-	con:$("#con").val()
-},function(data,status){
-	switch (data){
-		case '1':
-			tip("验证成功！",'#4CAF50');
-			break;
-		case '2':
-			tip("验证失败！",'#F14E4E');
-			break;
-		case '3':
-			tip("没有内容！",'#3F51B5');
-			break;
-		case 'old':
-			tip("验证过期！",'#FF9800');
-			break;
-		case 'fast':
-			tip('操作过快','#FF3939');
-			break;
-	}
-}
-		)
+	$('#tip').animate({
+		backgroundColor: color
+	})
+	if (load) {
 		lod();
+	};
 }
+
+function check(event) {
+	$("#cappic").hide();
+	tip("验证中...", '#0086b3', false);
+	x = event.clientX;
+	offx = $("#capt").offset().left;
+	$.post('Captcha.php', {
+			pos: x - offx,
+			con: $("#con").val()
+		},
+		function(data, status) {
+			if (status == 'success') {
+				switch (data) {
+					case '1':
+						tip("验证成功！", '#4CAF50', true);
+						break;
+					case '2':
+						tip("验证失败！", '#F14E4E', true);
+						break;
+					case '3':
+						tip("没有内容！", '#3F51B5', true);
+						break;
+					case 'old':
+						tip("验证过期！", '#FF9800', true);
+						break;
+					case 'fast':
+						tip('操作过快', '#FF3939', true);
+						break;
+				}
+			} else {
+				tip("网络故障！", '#FF3939', true);
+			};
+		}
+	)
+	$("#con").val("");
+}
+
 
 	</script>
 </head>
