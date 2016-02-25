@@ -12,9 +12,9 @@ setcookie("ck","1",time()+5);//设定cookie存活时间3s
 
 if($realpos==null)die('old');//过期
 
-if ($con==""||$con==" ")die('3');//内容空
-
 if($curpos<$realpos+5||$curpos>$realpos+50)die('2');//验证错误
+
+if ($con==""||$con==" ")die('3');//内容空
 
 file_put_contents('test.txt', $_REQUEST['con']."<br />",FILE_APPEND);
 $_SESSION["pos"]=null;
